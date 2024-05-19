@@ -1,8 +1,6 @@
 N0data = preloader("dataN0.csv")
 N0bin = preloaderspecial("dataN0.csv")
 
-#training encodertrain (first one) for checkpoint
-
 import os
 from typing import Any, Optional
 from pytorch_lightning.utilities.types import STEP_OUTPUT
@@ -163,7 +161,7 @@ class Encoder(pl.LightningModule):
 def encodertrain(dataset, kfold=False, alpha=3.0, batch_size=15, epochs=20, lr=0.0001, folds=5, seed=10, p_m=0.3, valsize=0.3, trainsize=0.7):
     checkpoint_callback = ModelCheckpoint(
     monitor='val_loss',
-    dirpath='woho/',  # Change this to your desired checkpoint directory
+    dirpath='dirpath/',  # Change this to your desired checkpoint directory
     filename='encoder-{epoch:02d}-{val_loss:.2f}',
     save_top_k=1,
     mode='min',
@@ -177,8 +175,8 @@ def encodertrain(dataset, kfold=False, alpha=3.0, batch_size=15, epochs=20, lr=0
         en_trainer = pl.Trainer(
                 limit_train_batches=batch_size,
                 max_epochs=epochs,
-                default_root_dir="woho/",
-                callbacks=[checkpoint_callback],  # Add ModelCheckpoint callback
+                default_root_dir="dirpath/",            #WHERE FOR THE PRETRAINING CHECKHPOINTS TO LAND, WILL USE FOR DOWNSTREAM
+                callbacks=[checkpoint_callback],  
             )
 
 
